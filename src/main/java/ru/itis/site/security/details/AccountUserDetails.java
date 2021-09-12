@@ -8,13 +8,8 @@ import ru.itis.site.models.Account;
 import java.util.Collection;
 import java.util.Collections;
 
-/**
- * 08.07.2021
- * 40. Spring Boot
- *
- * @author Sidikov Marsel (First Software Engineering Platform)
- * @version v1.0
- */
+// UserDetails - этот класс нужен, чтобы подружить spring security и модель Account, т.е. адаптировать
+// т.е. AccountUserDetails это описание нашего пользователя в контексте spring
 public class AccountUserDetails implements UserDetails {
 
     private Account account;
@@ -25,6 +20,7 @@ public class AccountUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        // берём роль аккаунта, преобразуем в строку, так спринг поймёт что за роль
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(account.getRole().name());
         return Collections.singleton(authority);
     }

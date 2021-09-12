@@ -18,16 +18,10 @@ import org.springframework.util.AntPathMatcher;
 
 import javax.sql.DataSource;
 
-/**
- * 08.07.2021
- * 40. Spring Boot
- *
- * @author Sidikov Marsel (First Software Engineering Platform)
- * @version v1.0
- */
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 

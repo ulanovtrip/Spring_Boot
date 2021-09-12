@@ -24,10 +24,12 @@ import java.util.List;
 @Entity
 public class Account implements Serializable {
 
+    // статусы аккаунта
     public enum State {
         CONFIRMED, NOT_CONFIRMED, BANNED
     }
 
+    // роли пользователей
     public enum Role {
         ADMIN, USER
     }

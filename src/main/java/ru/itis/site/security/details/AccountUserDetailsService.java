@@ -10,21 +10,17 @@ import ru.itis.site.repositories.AccountsRepository;
 
 import java.util.Optional;
 
-/**
- * 08.07.2021
- * 40. Spring Boot
- *
- * @author Sidikov Marsel (First Software Engineering Platform)
- * @version v1.0
- */
+// данный класс определяет как нужно загрузить пользователя откуда-то
 @Service("accountUserDetailsService")
 public class AccountUserDetailsService implements UserDetailsService {
 
     @Autowired
     private AccountsRepository accountsRepository;
 
+    // этот метод "учит" spring загружать пользователей из БД по email
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
         Optional<Account> accountOptional = accountsRepository.findByEmail(email);
 
         if (accountOptional.isPresent()) {
