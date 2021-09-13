@@ -5,13 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.security.PermitAll;
 
-/**
- * 03.07.2021
- * 40. Spring Boot
- *
- * @author Sidikov Marsel (First Software Engineering Platform)
- * @version v1.0
- */
 @Controller
 public class SignInController {
 

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -7,8 +8,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+
 <body>
 <h1>Профиль</h1>
+
+<#--эти данные кладутся в model.addAttribute("email", userDetails.getUsername());-->
 <h2>${email}</h2>
+
 </body>
 </html>

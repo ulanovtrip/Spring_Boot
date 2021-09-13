@@ -21,10 +21,13 @@ public class AccountUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
+        // достаём пользователя с таким email
         Optional<Account> accountOptional = accountsRepository.findByEmail(email);
 
         if (accountOptional.isPresent()) {
+            // если аккаунт точно есть, то вытаскиваем его
             Account account = accountOptional.get();
+            // Обернём его в объект AccountUserDetails, т.е. адаптер для Spring
             return new AccountUserDetails(account);
         } else {
             throw new UsernameNotFoundException("User not found");

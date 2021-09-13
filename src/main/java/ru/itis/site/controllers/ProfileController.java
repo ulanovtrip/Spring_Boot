@@ -8,18 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.itis.site.security.details.AccountUserDetails;
 
-/**
- * 08.07.2021
- * 40. Spring Boot
- *
- * @author Sidikov Marsel (First Software Engineering Platform)
- * @version v1.0
- */
 @Controller
 public class ProfileController {
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
+    // Model model, @AuthenticationPrincipal AccountUserDetails userDetails - так можно узнать, кто сейчас текущий пользователь
     public String getProfilePage(Model model, @AuthenticationPrincipal AccountUserDetails userDetails) {
+        // можно положить в model юзера, это нужно чтобы на форме вывести с помощью <h2>${email}</h2>
         model.addAttribute("email", userDetails.getUsername());
         return "profile";
     }

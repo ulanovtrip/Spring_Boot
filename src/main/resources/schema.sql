@@ -1,3 +1,6 @@
+
+-- persistent_logins - зарезервированное слово, эта таблица для сохранения сессии в бд, т.е. rememberMe
+
 create table if not exists persistent_logins
 (
     username  varchar(64) not null,
