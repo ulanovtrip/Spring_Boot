@@ -8,7 +8,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <title>Document</title>
+
+    <#--специальный токен для защиты от csrf атаки-->
     ${_csrf.headerName}
+
     <script>
         function addUser(firstName, lastName, email, password) {
             // создаем тело запроса
@@ -23,7 +26,7 @@
                 type: "POST",
                 url: "http://localhost/api/users",
                 data: JSON.stringify(body),
-                headers: {'X-CSRF-TOKEN' : '${_csrf.token}'},
+                headers: {'X-CSRF-TOKEN': '${_csrf.token}'},
                 success: function (response) {
 
                     let html = '<tr>' +
@@ -40,9 +43,12 @@
     </script>
 </head>
 <body>
-<#--<h1>${_csrf.parameterName}</h1>-->
-<#--<br>-->
-<#--<h1>${_csrf.token}</h1>-->
+
+<#--специальный токен для защиты от csrf атаки, каждая из страниц будет подписываться этим токеном, подписывает spring-->
+<h1>${_csrf.parameterName}</h1>
+<br>
+<h1>${_csrf.token}</h1>
+
 <h1>Всем привет!</h1>
 <table id="usersTable">
     <thead>

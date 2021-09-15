@@ -13,13 +13,6 @@ import ru.itis.site.services.AccountsService;
 
 import java.util.List;
 
-/**
- * 14.06.2021
- * 37. MVC
- *
- * @author Sidikov Marsel (First Software Engineering Platform)
- * @version v1.0
- */
 @Controller
 public class UsersController {
 

@@ -41,18 +41,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // здесь выполняется конфигурация spring security, это главные метод, здесь разрешается доступ
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-//        http.csrf().disable();
+        //http.csrf().disable(); // защита от csrf атаки
 
         http.authorizeRequests()
                 .antMatchers("/signUp/**").permitAll()
                 .antMatchers("users/confirm/**").permitAll()
                 .antMatchers("/profile/**").authenticated() // доступ имеет любой аутентифицированный пользователь
-                .antMatchers("/users/**").hasAuthority("ADMIN")
+                .antMatchers("/users/**").hasAuthority("ADMIN") // всё что после users/ разрешено толька ADMIN
                 .and()
-                .rememberMe().rememberMeParameter("remember-me")
-                .tokenRepository(persistentTokenRepository())
-                .tokenValiditySeconds(60 * 60 * 24 * 365)
+                .rememberMe().rememberMeParameter("remember-me") // указываем, что будет параметр remember-me
+                .tokenRepository(persistentTokenRepository()) // указываем что используем для хранения токенов пользователя
+                .tokenValiditySeconds(60 * 60 * 24 * 365) // срок жизни параметра remember-me
                 .and()
                 .formLogin() // описание страницы логина
                 .loginPage("/signIn") // это будет использовать нашу кастомную страницу вместо встроенной
