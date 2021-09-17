@@ -11,7 +11,7 @@ import ru.itis.site.security.details.AccountUserDetails;
 @Controller
 public class ProfileController {
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // только аутентифицированный пользователь может зайти
     @GetMapping("/profile")
     // Model model, @AuthenticationPrincipal AccountUserDetails userDetails - так можно узнать, кто сейчас текущий пользователь
     public String getProfilePage(Model model, @AuthenticationPrincipal AccountUserDetails userDetails) {

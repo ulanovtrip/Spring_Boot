@@ -9,13 +9,6 @@ import ru.itis.site.models.Account;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * 03.06.2021
- * 36. Java Servlet Application
- *
- * @author Sidikov Marsel (First Software Engineering Platform)
- * @version v1.0
- */
 @Data
 @Builder
 @AllArgsConstructor

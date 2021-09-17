@@ -17,7 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import javax.sql.DataSource;
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true) // позволяет защищать методы
 // WebSecurityConfigurerAdapter - тут описаны базовые методы безопасности
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -44,15 +44,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //http.csrf().disable(); // защита от csrf атаки
 
         http.authorizeRequests()
-                .antMatchers("/signUp/**").permitAll()
-                .antMatchers("users/confirm/**").permitAll()
-                .antMatchers("/profile/**").authenticated() // доступ имеет любой аутентифицированный пользователь
-                .antMatchers("/users/**").hasAuthority("ADMIN") // всё что после users/ разрешено толька ADMIN
+
+                // этот код закоментирован, т.к. заменён на аннотации:
+                // @EnableGlobalMethodSecurity(prePostEnabled = true), @PreAuthorize("hasAuthority('ADMIN')"), @PermitAll
+
+//                .antMatchers("/signUp/**").permitAll()
+//                .antMatchers("users/confirm/**").permitAll()
+//                .antMatchers("/profile/**").authenticated() // доступ имеет любой аутентифицированный пользователь
+//                .antMatchers("/users/**").hasAuthority("ADMIN") // всё что после users/ разрешено только ADMIN
                 .and()
+
                 .rememberMe().rememberMeParameter("remember-me") // указываем, что будет параметр remember-me
                 .tokenRepository(persistentTokenRepository()) // указываем что используем для хранения токенов пользователя
                 .tokenValiditySeconds(60 * 60 * 24 * 365) // срок жизни параметра remember-me
                 .and()
+
                 .formLogin() // описание страницы логина
                 .loginPage("/signIn") // это будет использовать нашу кастомную страницу вместо встроенной
                 .usernameParameter("email") // укажем параметр где смотреть email, так он будет брать его с signIn.ftlh
@@ -60,10 +66,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/profile") // если вход был успешным, то вернуть эту страницу
                 .failureUrl("/signIn?error").permitAll() // если вход был неуспешным, то вернуть такую страницу
                 .and()
+
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/signIn")
-                .deleteCookies("JSESSIONID", "remember-me")
-                .invalidateHttpSession(true);
+                .logoutSuccessUrl("/signIn") // если успешно вышли, то переходим на эту форму
+                .deleteCookies("JSESSIONID", "remember-me") // указываем какие куки нужно удалить после logout
+                .invalidateHttpSession(true); // инвалидация сессии
 
     }
 

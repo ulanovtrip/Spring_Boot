@@ -77,6 +77,8 @@
             <version>6.2.0.Final</version>
 
         </dependency>
+
+        <!--// зависимость для возможности хранения сессии в БД-->
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-jdbc</artifactId>

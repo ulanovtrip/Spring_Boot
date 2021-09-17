@@ -38,7 +38,9 @@ public class AccountsServiceImpl implements AccountsService {
     @Override
     public List<AccountDto> getUsers(int page, int size) {
         PageRequest request = PageRequest.of(page, size);
+        // получаем страницу с набором данных
         Page<Account> accountPage = accountsRepository.findAll(request);
+        // конвертируем в AccountDto и возвращаем
         return from(accountPage.getContent());
     }
 }

@@ -9,6 +9,7 @@ create table if not exists persistent_logins
     last_used timestamp   not null
 );
 
+-- эта таблица нужна для хранения информации о сессии в бд
 CREATE TABLE if not exists SPRING_SESSION (
                                 PRIMARY_ID CHAR(36) NOT NULL,
                                 SESSION_ID CHAR(36) NOT NULL,

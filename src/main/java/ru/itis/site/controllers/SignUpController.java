@@ -19,7 +19,7 @@ public class SignUpController {
     @Autowired
     private SignUpService signUpService;
 
-    @PermitAll
+    @PermitAll // это регулирует доступ к странице и избаляет от необходимости писать конфиг в SecurityConfig
     @GetMapping("/signUp")
     public String getSignUpPage(Model model) {
         // положим пустую форму и атрибут фримаркера

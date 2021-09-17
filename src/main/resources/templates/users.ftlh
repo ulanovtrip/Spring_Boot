@@ -22,13 +22,13 @@
                 "password": password
             };
 
+            // это должно добавить нового пользователя через ajax
             $.ajax({
                 type: "POST",
-                url: "http://localhost/api/users",
+                url: "http://localhost:8080/api/users",
                 data: JSON.stringify(body),
-                headers: {'X-CSRF-TOKEN': '${_csrf.token}'},
+                headers: {'X-CSRF-TOKEN': '${_csrf.token}'}, // передача токена csrf через заголовок
                 success: function (response) {
-
                     let html = '<tr>' +
                         '           <td>' + response['firstName'] + '</td>' +
                         '           <td>' + response['lastName'] + '</td>' +
