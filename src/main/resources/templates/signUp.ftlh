@@ -24,9 +24,12 @@
 <@spring.bind "signUpForm"/>
 
 <form action="/signUp" method="post">
+
+    <#--если есть ошибка где имя и фамилия одинаковые-->
     <#if namesError??>
-        <p style=".error"><@spring.message 'error.names.bad'/></p>
+        <p style="color: red"><@spring.message 'error.names.bad'/></p>
     </#if>
+
     <label for="firstName"><@spring.message 'signUp.label.for.firstName'/>
         <@spring.formInput "signUpForm.firstName"/>
         <@spring.showErrors "<br>" "error"/>
@@ -47,7 +50,9 @@
         <@spring.showErrors "<br>" "error"/>
     </label>
 
+    <#--скрытый токен-->
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+
     <input type="submit" value="Регистрация">
     <#--    <input type="submit" value=<@spring.message 'signUp.label.for.registrationBtn'/>-->
 

@@ -22,20 +22,25 @@ public class SignUpController {
     @PermitAll // это регулирует доступ к странице и избаляет от необходимости писать конфиг в SecurityConfig
     @GetMapping("/signUp")
     public String getSignUpPage(Model model) {
-        // положим пустую форму и атрибут фримаркера
+        // положим пустую форму и атрибут фримаркера, т.е. как бы new SignUpForm привязывается к форме signUp.ftlh
         model.addAttribute("signUpForm", new SignUpForm());
         return "signUp";
     }
 
+    // этот метод вызывается на  <input type="submit" value="Регистрация">
     @PermitAll
     @PostMapping("/signUp")
     // bindingResult - хранит результаты валидации, model - данные которые мы на страницу отдаём
     public String signUpUser(@Valid SignUpForm form, BindingResult bindingResult, Model model) {
         // если есть ошибки
         if (bindingResult.hasErrors()) {
+            // берём все ошибки
             if (bindingResult.getAllErrors()
+                    // берём у них стрим
                     .stream()
+                    // если нулевой код содержит
                     .anyMatch(error -> error.getCodes()[0].equals("signUpForm.NotSameNames"))) {
+                // то в модель кладём атрибут namesError
                 model.addAttribute("namesError", new Object());
             }
             // кладем эту форму с ошибками обратно на страницу

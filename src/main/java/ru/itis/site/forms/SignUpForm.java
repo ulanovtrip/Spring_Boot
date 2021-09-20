@@ -15,7 +15,11 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
+// своя аннотация для проверки двух полей, имени и фамилии на одинаковость
+// firstNameField, lastNameField - это методы из аннотации
 @NotSameNames(firstNameField = "firstName", lastNameField = "lastName", message = "{error.names.bad}")
+
 public class SignUpForm {
 
     // валидация полей, error.firstName.size - код ошибки из messages_?.properties
