@@ -19,13 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-/**
- * 31.07.2021
- * 40. Spring Boot
- *
- * @author Sidikov Marsel (First Software Engineering Platform)
- * @version v1.0
- */
 @Controller
 public class FilesServiceImpl implements FilesService {
 
@@ -40,9 +33,13 @@ public class FilesServiceImpl implements FilesService {
 
     @Override
     public FileUrlDto save(MultipartFile file) {
+
+        // создаем название файлу
+        // FilenameUtils.getExtension(file.getOriginalFilename() - добавляет расширение к файлу
         String storageName =
                 UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
 
+        // собираем модель для сохранения в БД
         FileInfo fileInfo = FileInfo.builder()
                 .originalFileName(file.getOriginalFilename())
                 .storageFileName(storageName)
@@ -50,6 +47,7 @@ public class FilesServiceImpl implements FilesService {
                 .type(file.getContentType())
                 .build();
         try {
+            // позволяет взять файл и записать его в другое место
             Files.copy(file.getInputStream(), Paths.get(storagePath, storageName));
         } catch (IOException e) {
             throw new IllegalStateException(e);
@@ -57,6 +55,7 @@ public class FilesServiceImpl implements FilesService {
 
         filesRepository.save(fileInfo);
 
+        // это вернёт полный URL к файлу, ссылка сейчас видно в response в браузере
         return FileUrlDto
                 .builder()
                 .fileUrl(serverUrl + "/files/" + storageName)
@@ -65,6 +64,8 @@ public class FilesServiceImpl implements FilesService {
 
     @Override
     public void writeFileToResponse(String fileName, HttpServletResponse response) {
+
+        // сначала вытащим файл из репозитория
         FileInfo fileInfo = filesRepository.findByStorageFileName(fileName);
 
         // важно, чтобы браузер понял, какого типа данные мы ему шлем
@@ -72,11 +73,16 @@ public class FilesServiceImpl implements FilesService {
         response.setContentType(fileInfo.getType());
 
         try {
+
             // входной поток файла, который хранится на сервере на диске
-            InputStream inputStream = new FileInputStream(storagePath + "\\" + fileName);
+            InputStream inputStream = new FileInputStream(storagePath + "/" + fileName);
+
             // поток HTTP-ответа, куда мы запишем файл
             OutputStream outputStream = response.getOutputStream();
+
+            // копируем из inputStream в outputStream информацию
             IOUtils.copy(inputStream, outputStream);
+            // сбросим буфер, чтобы ответ записался
             response.flushBuffer();
         } catch (IOException e) {
             throw new IllegalStateException(e);

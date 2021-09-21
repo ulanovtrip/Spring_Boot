@@ -12,34 +12,31 @@ import ru.itis.site.services.FilesService;
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * 31.07.2021
- * 40. Spring Boot
- *
- * @author Sidikov Marsel (First Software Engineering Platform)
- * @version v1.0
- */
 @Controller
 public class FilesController {
 
     @Autowired
     private FilesService filesService;
 
-    @PermitAll
+    @PermitAll // разрешено всем
     @GetMapping("/files/upload")
     public String getFileUploadPage() {
         return "file_upload";
     }
 
+    // запрос файла по конкретному названию файла, ".+" - допускает использование точки в конце
     @GetMapping("/files/{file-name:.+}")
     public void getFile(@PathVariable("file-name") String fileName, HttpServletResponse response) {
+        // по названию fileName в такой-то респонс response запишем файл, считанный с диска
         filesService.writeFileToResponse(fileName, response);
     }
 
     @PermitAll
     @PostMapping("/files")
     @ResponseBody
+    // @RequestParam("file") MultipartFile file - это позволит принять на вход Content-Type: multipart/form-data;
     public FileUrlDto saveFile(@RequestParam("file") MultipartFile file)  {
+        // это сохраняет на диск сервера
         return filesService.save(file);
     }
 }
